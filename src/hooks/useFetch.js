@@ -56,6 +56,7 @@ export const useFetch = (url, options = {}) => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]); // Only refetch if URL changes
 
   const refetch = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTask } from '../../hooks/useTask';
 import { taskAPI } from '../../utils/api';
-import { formatDate, isTaskOverdue, getPriorityColor, getTaskStatusColor } from '../../utils/workflowUtils';
+import { formatDate, isTaskOverdue, getPriorityColor } from '../../utils/workflowUtils';
 
 const TaskBoard = () => {
   const { tasks, setTasks, updateTask, setLoading, setError } = useTask();
@@ -13,6 +13,7 @@ const TaskBoard = () => {
 
   useEffect(() => {
     fetchTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchTasks = async () => {
@@ -27,6 +28,7 @@ const TaskBoard = () => {
 
   useEffect(() => {
     organizeTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks]);
 
   const organizeTasks = () => {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAutomation } from '../../hooks/useAutomation';
 import { automationAPI } from '../../utils/api';
-import { formatDateTime } from '../../utils/workflowUtils';
 
 const AutomationRules = () => {
   const { rules, setRules, triggers, setTriggers, actions, setActions, toggleRule, deleteRule, setError } = useAutomation();
@@ -19,6 +18,7 @@ const AutomationRules = () => {
     fetchRules();
     fetchTriggers();
     fetchActions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchRules = async () => {

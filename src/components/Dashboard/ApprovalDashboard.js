@@ -4,12 +4,13 @@ import { approvalAPI } from '../../utils/api';
 import { formatDateTime, getApprovalStatusColor } from '../../utils/workflowUtils';
 
 const ApprovalList = () => {
-  const { approvals, setApprovals, pendingApprovals, setPendingApprovals, approve, reject, setError } = useApproval();
+  const { setApprovals, pendingApprovals, setPendingApprovals, approve, reject, setError } = useApproval();
   const [selectedApproval, setSelectedApproval] = useState(null);
   const [rejectReason, setRejectReason] = useState('');
 
   useEffect(() => {
     fetchApprovals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchApprovals = async () => {
@@ -25,7 +26,7 @@ const ApprovalList = () => {
 
   const handleApprove = async (approvalId) => {
     try {
-      const result = await approvalAPI.approve(approvalId, {
+      await approvalAPI.approve(approvalId, {
         approvedBy: 'current-user', // Replace with actual user
       });
       approve({
@@ -39,7 +40,7 @@ const ApprovalList = () => {
 
   const handleReject = async (approvalId) => {
     try {
-      const result = await approvalAPI.reject(approvalId, {
+      await approvalAPI.reject(approvalId, {
         rejectedBy: 'current-user',
         reason: rejectReason,
       });

@@ -10,6 +10,7 @@ const WorkflowList = () => {
 
   useEffect(() => {
     fetchWorkflows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchWorkflows = async () => {
@@ -24,6 +25,7 @@ const WorkflowList = () => {
 
   useEffect(() => {
     filterWorkflows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workflows, filter]);
 
   const filterWorkflows = () => {

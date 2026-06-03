@@ -7,7 +7,7 @@ import { taskAPI, approvalAPI, workflowAPI } from '../utils/api';
 const DashboardPage = () => {
   const { workflows, setWorkflows } = useWorkflow();
   const { tasks, setTasks } = useTask();
-  const { pendingApprovals, setPendingApprovals } = useApproval();
+  const { setPendingApprovals } = useApproval();
   const [stats, setStats] = useState({
     totalWorkflows: 0,
     activeWorkflows: 0,
@@ -18,6 +18,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     fetchDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchDashboardData = async () => {

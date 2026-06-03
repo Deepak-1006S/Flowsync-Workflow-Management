@@ -23,6 +23,7 @@ class Logger {
   info(message, data = {}) {
     if (this.isDevelopment) {
       const { prefix } = this.formatMessage('INFO', message, data);
+      // eslint-disable-next-line no-console
       console.log(`${prefix} ${message}`, data);
     }
   }
@@ -32,6 +33,7 @@ class Logger {
    */
   warn(message, data = {}) {
     const { prefix } = this.formatMessage('WARN', message, data);
+    // eslint-disable-next-line no-console
     console.warn(`${prefix} ${message}`, data);
   }
 
@@ -40,6 +42,7 @@ class Logger {
    */
   error(message, error = null) {
     const { prefix } = this.formatMessage('ERROR', message, error);
+    // eslint-disable-next-line no-console
     console.error(`${prefix} ${message}`, error);
 
     // In production, send to error tracking service
@@ -54,6 +57,7 @@ class Logger {
   debug(message, data = {}) {
     if (this.isDevelopment) {
       const { prefix } = this.formatMessage('DEBUG', message, data);
+      // eslint-disable-next-line no-console
       console.debug(`${prefix} ${message}`, data);
     }
   }
@@ -61,7 +65,8 @@ class Logger {
   /**
    * Send error to external tracking service
    */
-  sendToErrorTracking(message, error) {
+  // eslint-disable-next-line no-unused-vars
+  sendToErrorTracking(_message, _error) {
     // TODO: Integrate with Sentry, Rollbar, or similar
     // Example: Sentry.captureException(error);
   }

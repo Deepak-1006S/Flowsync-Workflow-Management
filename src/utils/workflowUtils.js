@@ -35,8 +35,12 @@ export const validateWorkflow = (workflow) => {
 };
 
 export const getWorkflowStatus = (workflow) => {
-  if (workflow.published && !workflow.archived) return 'active';
-  if (workflow.archived) return 'archived';
+  if (workflow.published && !workflow.archived) {
+    return 'active';
+  }
+  if (workflow.archived) {
+    return 'archived';
+  }
   return 'draft';
 };
 
@@ -62,8 +66,12 @@ export const createTask = (title, description, assignee, dueDate, workflowId) =>
 };
 
 export const isTaskOverdue = (task) => {
-  if (task.status === 'completed') return false;
-  if (!task.dueDate) return false;
+  if (task.status === 'completed') {
+    return false;
+  }
+  if (!task.dueDate) {
+    return false;
+  }
   return new Date(task.dueDate) < new Date();
 };
 
@@ -168,9 +176,17 @@ export const getRelativeTime = (dateString) => {
   const now = new Date();
   const seconds = Math.floor((now - date) / 1000);
 
-  if (seconds < 60) return 'Just now';
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-  if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`;
+  if (seconds < 60) {
+    return 'Just now';
+  }
+  if (seconds < 3600) {
+    return `${Math.floor(seconds / 60)}m ago`;
+  }
+  if (seconds < 86400) {
+    return `${Math.floor(seconds / 3600)}h ago`;
+  }
+  if (seconds < 604800) {
+    return `${Math.floor(seconds / 86400)}d ago`;
+  }
   return formatDate(dateString);
 };
