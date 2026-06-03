@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FlowSync - Workflow Management System
 
 A comprehensive workflow management system built with React and Context API for managing tasks, approvals, and automation.
@@ -240,3 +241,6 @@ This project is licensed under the MIT License.
 
 For issues and questions, please create an issue in the repository.
 >>>>>>> 9a4ace4 (Initial commit)
+=======
+# Flowsync-Workflow-Management
+>>>>>>> 19eff8cbe09e69bb660779d3cd23709f184ac0d5
