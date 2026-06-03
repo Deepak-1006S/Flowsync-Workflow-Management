@@ -4,18 +4,10 @@
   "installCommand": "npm install",
   "framework": "react",
   "outputDirectory": "build",
-  "env": [
-    {
-      "key": "REACT_APP_API_URL",
-      "description": "Backend API URL for production",
-      "value": ""
-    },
-    {
-      "key": "REACT_APP_ENV",
-      "description": "Environment (development/production)",
-      "value": "production"
-    }
-  ],
+  "env": {
+    "REACT_APP_API_URL": "",
+    "REACT_APP_ENV": "production"
+  },
   "git": {
     "deploymentEnabled": {
       "main": true
