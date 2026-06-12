@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useWorkflow } from '../../hooks/useWorkflow';
 import { workflowAPI } from '../../utils/api';
 import { formatDate, getWorkflowStatus } from '../../utils/workflowUtils';
 
 const WorkflowList = () => {
+  const navigate = useNavigate();
   const { workflows, setWorkflows, setCurrentWorkflow, setLoading, setError, deleteWorkflow } = useWorkflow();
   const [filteredWorkflows, setFilteredWorkflows] = useState([]);
   const [filter, setFilter] = useState('all'); // all, active, draft, archived
@@ -56,11 +58,24 @@ const WorkflowList = () => {
     }
   };
 
+  const handleNewWorkflow = useCallback(() => {
+    setCurrentWorkflow(null);
+    navigate('/workflows?mode=builder');
+  }, [navigate, setCurrentWorkflow]);
+
+  const handleEditWorkflow = useCallback((workflow) => {
+    setCurrentWorkflow(workflow);
+    navigate('/workflows?mode=builder');
+  }, [navigate, setCurrentWorkflow]);
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Workflows</h1>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        <button
+          onClick={handleNewWorkflow}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
           + New Workflow
         </button>
       </div>
@@ -109,7 +124,7 @@ const WorkflowList = () => {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => setCurrentWorkflow(workflow)}
+                    onClick={() => handleEditWorkflow(workflow)}
                     className="px-3 py-2 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
                   >
                     Edit

@@ -87,7 +87,12 @@ const Layout = ({ children }) => {
               <h2 className="mt-2 text-2xl font-semibold text-slate-900">{pageTitle}</h2>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              <button className="button-secondary">Notifications</button>
+              <button
+                onClick={() => window.alert('Notifications are not available yet.')}
+                className="button-secondary"
+              >
+                Notifications
+              </button>
               <button
                 onClick={() => navigate('/workflows?mode=builder')}
                 className="button-primary"
