@@ -18,7 +18,9 @@ const Alert = ({ message, type = 'info', duration = 5000, onClose }) => {
     }
   }, [duration, onClose]);
 
-  if (!isVisible) return null;
+  if (!isVisible) {
+    return null;
+  }
 
   const bgColor = {
     success: 'bg-green-100 border-green-300 text-green-800',
