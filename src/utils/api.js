@@ -1,11 +1,26 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
+const handleResponse = async (response) => {
+  const contentType = response.headers.get('Content-Type') || '';
+  const isJson = contentType.includes('application/json');
+  const data = isJson ? await response.json().catch(() => null) : null;
+
+  if (!response.ok) {
+    const errorMessage = data?.message || data?.error || `HTTP ${response.status} ${response.statusText}`;
+    const error = new Error(errorMessage);
+    error.status = response.status;
+    throw error;
+  }
+
+  return data;
+};
+
 // Workflow APIs
 export const workflowAPI = {
   getAll: async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/workflows`);
-      return await response.json();
+      return await handleResponse(response);
     } catch (error) {
       console.error('Error fetching workflows:', error);
       throw error;
@@ -15,7 +30,7 @@ export const workflowAPI = {
   getById: async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/workflows/${id}`);
-      return await response.json();
+      return await handleResponse(response);
     } catch (error) {
       console.error('Error fetching workflow:', error);
       throw error;
@@ -29,7 +44,7 @@ export const workflowAPI = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(workflowData),
       });
-      return await response.json();
+      return await handleResponse(response);
     } catch (error) {
       console.error('Error creating workflow:', error);
       throw error;
@@ -43,7 +58,7 @@ export const workflowAPI = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(workflowData),
       });
-      return await response.json();
+      return await handleResponse(response);
     } catch (error) {
       console.error('Error updating workflow:', error);
       throw error;
@@ -55,7 +70,7 @@ export const workflowAPI = {
       const response = await fetch(`${API_BASE_URL}/workflows/${id}`, {
         method: 'DELETE',
       });
-      return await response.json();
+      return await handleResponse(response);
     } catch (error) {
       console.error('Error deleting workflow:', error);
       throw error;
@@ -67,7 +82,7 @@ export const workflowAPI = {
       const response = await fetch(`${API_BASE_URL}/workflows/${id}/publish`, {
         method: 'POST',
       });
-      return await response.json();
+      return await handleResponse(response);
     } catch (error) {
       console.error('Error publishing workflow:', error);
       throw error;
@@ -77,7 +92,7 @@ export const workflowAPI = {
   getTemplates: async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/workflows/templates`);
-      return await response.json();
+      return await handleResponse(response);
     } catch (error) {
       console.error('Error fetching templates:', error);
       throw error;

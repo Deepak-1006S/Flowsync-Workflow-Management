@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Alert from '../Common/Alert';
 import { useWorkflow } from '../../hooks/useWorkflow';
-import { createWorkflowStep, validateWorkflow } from '../../utils/workflowUtils';
+import { createWorkflowStep, generateWorkflowId, validateWorkflow } from '../../utils/workflowUtils';
 import { workflowAPI } from '../../utils/api';
 
 const WorkflowBuilder = () => {
-  const { currentWorkflow, addWorkflow, updateWorkflow, setError } = useWorkflow();
+  const { currentWorkflow, addWorkflow, updateWorkflow, setError, error } = useWorkflow();
   const [workflow, setWorkflow] = useState({
     id: '',
     name: '',
@@ -19,6 +20,8 @@ const WorkflowBuilder = () => {
 
   const [selectedStep, setSelectedStep] = useState(null);
   const [stepType, setStepType] = useState('task');
+  const [statusMessage, setStatusMessage] = useState('');
+  const [statusType, setStatusType] = useState('success');
 
   useEffect(() => {
     if (currentWorkflow) {
@@ -53,26 +56,56 @@ const WorkflowBuilder = () => {
   const handleSave = async () => {
     const validation = validateWorkflow(workflow);
     if (!validation.valid) {
-      setError(validation.errors.join(', '));
+      const message = validation.errors.join(', ');
+      setError(message);
+      setStatusType('error');
+      setStatusMessage(message);
       return;
     }
+
+    setError(null);
+    setStatusMessage('');
 
     try {
       if (workflow.id) {
         const updated = await workflowAPI.update(workflow.id, workflow);
-        updateWorkflow(updated);
+        const savedWorkflow = updated && updated.id ? updated : { ...workflow, updatedAt: new Date().toISOString() };
+        updateWorkflow(savedWorkflow);
+        setWorkflow(savedWorkflow);
+        setStatusType('success');
+        setStatusMessage('Workflow saved successfully.');
       } else {
         const created = await workflowAPI.create(workflow);
-        addWorkflow(created);
+        const savedWorkflow = created && created.id ? created : { ...workflow, id: generateWorkflowId(), updatedAt: new Date().toISOString(), createdAt: workflow.createdAt || new Date().toISOString() };
+        addWorkflow(savedWorkflow);
+        setWorkflow(savedWorkflow);
+        setStatusType('success');
+        setStatusMessage('Workflow created successfully.');
       }
     } catch (error) {
-      setError(error.message);
+      const message = error?.message || 'Unable to save workflow.';
+      setError(message);
+      setStatusType('error');
+      setStatusMessage(message);
     }
   };
 
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Workflow Builder</h1>
+
+      {(statusMessage || error) && (
+        <div className="mb-4">
+          <Alert
+            message={statusMessage || error}
+            type={statusType}
+            onClose={() => {
+              setStatusMessage('');
+              setError(null);
+            }}
+          />
+        </div>
+      )}
 
       <div className="grid grid-cols-3 gap-6">
         {/* Left Panel - Workflow Configuration */}
